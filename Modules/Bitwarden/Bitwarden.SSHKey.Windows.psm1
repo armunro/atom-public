@@ -3,6 +3,7 @@ function Import-SSHAgentWindowsKey($KeyPath)
     Set-KeyFileWindowsSafeACLs -KeyPath $KeyPath | Out-Null
     $agentService = Get-Service ssh-agent
     if ($agentService.Status -ne "Running") {
+        $agentService | Set-Service -StartupType Manual
         $agentService | Start-Service
     }
     ssh-add.exe $KeyPath
