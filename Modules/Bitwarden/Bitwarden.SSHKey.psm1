@@ -3,22 +3,29 @@ function Import-BitwardenSSHKey
     Param(
         $Profile
     )
-    Write-Host (Get-BitwardenSession) -ForegroundColor Cyan
 
-    if(-not(Get-BitwardenSession))
+    if([String]::IsNullOrWhitespace( (Get-BitwardenSession)))
     {
         Start-BitwardenSession
         Write-Host (Get-BitwardenSession) -ForegroundColor Cyan
     }
    
     $workDir = Join-Path $([System.IO.Path]::GetTempPath() ) $([System.Guid]::NewGuid() )
+    Write-Host $workDir
+
     [void](New-Item -Type Directory -Path $workDir -Force)
 
     $profileContent = Get-Content $Profile | ConvertFrom-Json
+
+
+
+    $session = Get-BitwardenSession
+
+    Write-Host -ForegroundColor Green $profileContent
     $profileContent.Formats | Foreach-Object {
         $attachmentName = $_.Attachment
         $attchmentDownloadPath = ($workDir | Join-Path -ChildPath $attachmentName)
-        Get-BitwardenAttachment -ItemId $profileContent.ItemId -Attachment $attachmentName -Destination $attchmentDownloadPath
+        Get-BitwardenAttachment -ItemId $profileContent.ItemId -Attachment $attachmentName -Destination $attchmentDownloadPath -Session $session
 
         if ($IsLinux -and ($_.Format -eq 'openssh')) {
             Import-SSHAgentLinuxKey -KeyPath $attchmentDownloadPath

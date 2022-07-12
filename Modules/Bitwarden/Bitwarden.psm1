@@ -34,11 +34,11 @@ function Get-BitwardenSession() {
 function Start-BitwardenSession() {
     $session = ""
     if (-not (Get-BitwardenIsLoggedIn)) {
-        $session = & bw login --raw
+        $session = & bw login
     }
     else {
         if (-not(Get-BitwardenIsUnlocked)) {
-            $session = & bw unlock --raw
+            $session = & bw unlock
         }
     }
     $env:BW_SESSION = $session
