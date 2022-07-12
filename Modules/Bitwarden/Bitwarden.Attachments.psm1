@@ -6,5 +6,6 @@ function Get-BitwardenAttachment() {
         $Destination,
         $Session
     )
-    & bw get attachment $Attachment --itemid $ItemId --output "$Destination" --session $Session
+        
+    & bw get attachment $Attachment --itemid $ItemId --output $Destination --session $Session --quiet
 }

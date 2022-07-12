@@ -11,8 +11,6 @@ function Import-BitwardenSSHKey
     }
    
     $workDir = Join-Path $([System.IO.Path]::GetTempPath() ) $([System.Guid]::NewGuid() )
-    Write-Host $workDir
-
     [void](New-Item -Type Directory -Path $workDir -Force)
 
     $profileContent = Get-Content $Profile | ConvertFrom-Json
@@ -21,7 +19,7 @@ function Import-BitwardenSSHKey
 
     $session = Get-BitwardenSession
 
-    Write-Host -ForegroundColor Green $profileContent
+    
     $profileContent.Formats | Foreach-Object {
         $attachmentName = $_.Attachment
         $attchmentDownloadPath = ($workDir | Join-Path -ChildPath $attachmentName)
