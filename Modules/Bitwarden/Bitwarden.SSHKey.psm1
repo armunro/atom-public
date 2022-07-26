@@ -7,7 +7,6 @@ function Import-BitwardenSSHKey
     if([String]::IsNullOrWhitespace( (Get-BitwardenSession)))
     {
         Start-BitwardenSession
-        Write-Host (Get-BitwardenSession) -ForegroundColor Cyan
     }
    
     $workDir = Join-Path $([System.IO.Path]::GetTempPath() ) $([System.Guid]::NewGuid() )
