@@ -1,0 +1,12 @@
+name: "Example-Persona"
+description: "Demonstrates how to import a zone and its modules, and run a startup command"
+zones:
+  - name: public
+    color: Green
+    path: C:\Atom\atom-public
+    modules:
+      - "Example*"
+startupCommands:
+  - name: "Prompt Greeting"
+    command: 'Write-AtomExampleHelloWorld'
+    prompt: true
